@@ -1,6 +1,8 @@
 ///////////////////// 
-// V2.4 08.12.2024 //
+// V2.5 24.05.2025 //
 /////////////////////
+// This file is part of [weather-station].
+// It is licensed under the GNU GPL v3. See the LICENSE file for details.
 
 ////////////
 // Header // 
