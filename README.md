@@ -10,6 +10,10 @@ Telegraam,
 Sensor: TMP36, BMP32.
 I have also using a Heagig element that i turn on and of using a relay. 
 
+
+
+
+# CopyRight
 ```
 Copyright (C) 2025 Andreas Skjei Dahl
 
