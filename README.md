@@ -8,7 +8,7 @@ In this code i am using
 Influx DB,
 Telegraam,
 Sensor: TMP36, BMP32.
-I have also using a Heagig element that i turn on and of using a relay. 
+I have also using a heating element that i turn on and of using a relay. 
 
 
 
