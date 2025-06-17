@@ -1,5 +1,5 @@
 ///////////////////// 
-// V2.5 24.05.2025 //
+// V2.5 17.06.2025 //
 /////////////////////
 // This file is part of [weather-station].
 // It is licensed under the GNU GPL v3. See the LICENSE file for details.
@@ -236,6 +236,8 @@
 
     #define   g_BOT_MTBS 4000           // mean time between scan messages
     uint32_t  g_bot_lasttime;           // last time messages' scan has been done
+
+
 ////////////////////
 // InfluxDB Cloud //
 ////////////////////
@@ -254,6 +256,12 @@
     Point sensor("Sensor_Data");
 
 
+//////////////////
+// Weekly Reset //
+//////////////////
+
+    #define   g_WeeklyReset_MTBS 604800000 // 7 days
+    uint32_t  g_WeeklyReset_last_MTBS;
 
 
 
@@ -304,18 +312,23 @@
     {
     delay(100); // Less stress on prossesor
 
+    // Reset after 7 days
+    if (millis() - g_WeeklyReset_last_MTBS >= g_WeeklyReset_MTBS)               ESP.restart();
 
     // Run func
-    if (millis() - g_TMP36_ReadSensors_last_MTBS > g_TMP36_ReadSensors_MTBS)    ReadSensors();
-    if (millis() - g_alerts_last_MTBS > g_Alerts_MTBS)                          Alerts();
-    if (millis() - g_InfluxDB_last_MTBS > g_InfluxDB_MTBS)                      InfluxDB();
+    if (millis() - g_TMP36_ReadSensors_last_MTBS >= g_TMP36_ReadSensors_MTBS)    ReadSensors();
+    if (millis() - g_alerts_last_MTBS >= g_Alerts_MTBS)                          Alerts();
+    if (millis() - g_InfluxDB_last_MTBS >= g_InfluxDB_MTBS)                      InfluxDB();
     HeaterController_Stue.heatElement(TMP36_sensor4.tempC);
 
 
     // Telegram
-    if (millis() - g_bot_lasttime > g_BOT_MTBS)
+    if (millis() - g_bot_lasttime >= g_BOT_MTBS)
     {
         int numNewMessages = bot.getUpdates(bot.last_message_received + 1);
+        
+        // skip rest of loop if getUpdates fails
+        if (numNewMessages < 0) continue;
         while (numNewMessages)
         {
         handleNewMessages(numNewMessages);
