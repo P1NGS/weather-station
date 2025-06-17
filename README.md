@@ -1,4 +1,4 @@
-# weather-station
+# weather Station
 weather station using esp32
 
 # Requirements
